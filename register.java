@@ -6,5 +6,5 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-public class register{
+public class register(String user, String password){
 }
