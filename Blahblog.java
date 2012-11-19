@@ -37,9 +37,16 @@ public class Blahblog{
 				username = input.nextLine();
 				System.out.println("What's your password?");
 				password = input.nextLine();
+				String whateverLogInReturns = "temp";
+				if(username.equals(whateverLogInReturns)){
+					//logs in
+					//viewdashboard(username)
+					
+				}
 				
 				
 			}
+			
 			
 		  }
 }
