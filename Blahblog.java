@@ -6,7 +6,7 @@ public class Blahblog{
 
         public static void main(String[] args) {
 		  String registerOrNo;
-
+		  blog theBlog = new blog();
 		  Scanner input = new Scanner(System.in);
 		  System.out.println("Welcome. Do you have an account? (Y/N)");
 		  registerOrNo = input.nextLine();
@@ -39,6 +39,7 @@ public class Blahblog{
 				password = input.nextLine();
 				String whateverLogInReturns = "temp";
 				if(username.equals(whateverLogInReturns)){
+					theBlog.viewDashboard(username);
 					//logs in
 					//viewdashboard(username)
 					

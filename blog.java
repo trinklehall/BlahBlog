@@ -9,7 +9,18 @@ public class blog{
 	public blog(){}
 	
 	public void viewDashboard(String username){
-		
+	
+      Scanner input = new Scanner(System.in);
+		String dashSelection;
+		System.out.println("Welcome, " + username);
+		System.out.println("--------------------");
+		System.out.println("1: View your blog");
+		System.out.println("2: View posts from blog you are subscribed to");
+		dashSelection = input.nextLine();
+		if(dashSelection.equals("1")){
+			
+			openBrowser(username+".html");
+		}
 	}
 	public void openBrowser(String url){
 	  String osName = System.getProperty("os.name");
