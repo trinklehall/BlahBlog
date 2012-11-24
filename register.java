@@ -23,5 +23,56 @@ public class register{
     //oh noes!
 }
 
-	}
+
+
+	try{
+	  Writer output = null;
+	  String userhtml = (username + ".html");
+	  File file = new File(userhtml);
+	  output = new BufferedWriter(new FileWriter(file));
+	  String tempFileContents = fileToString("template.html");
+	  
+	  String strreplace = "User";
+	  String result = tempFileContents.replace(username, strreplace);
+
+	
+	  output.write(tempFileContents);
+	  
+
+	  
+	  output.close();
+     System.out.println("Great. Registered.");
+	   
+  } catch (IOException e) {
+    //oh noes!
 }
+//Create file named (user + ".html");
+//Copy contents of template.html into user file
+//Parse, replace "user" with user's name in line 5 (title), line 32 ("____'s Blog"), 
+
+
+
+	}
+	
+	 public static String fileToString(String file) {
+        String result = null;
+        DataInputStream in = null;
+
+        try {
+            File f = new File(file);
+            byte[] buffer = new byte[(int) f.length()];
+            in = new DataInputStream(new FileInputStream(f));
+            in.readFully(buffer);
+            result = new String(buffer);
+        } catch (IOException e) {
+            throw new RuntimeException("IO problem in fileToString", e);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) { /* ignore it */
+            }
+        }
+        return result;
+    }
+	 	
+  }

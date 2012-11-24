@@ -16,10 +16,13 @@ public class blog{
 		System.out.println("--------------------");
 		System.out.println("1: View your blog");
 		System.out.println("2: View posts from blog you are subscribed to");
+		System.out.println("3: Add post");
+		System.out.println("4: Delete post");
+		System.out.println("5: Subscribe to user");
 		dashSelection = input.nextLine();
 		if(dashSelection.equals("1")){
-			
-			openBrowser(username+".html");
+			String site = (username + ".html");
+			openBrowser(site);
 		}
 	}
 	public void openBrowser(String url){

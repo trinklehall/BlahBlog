@@ -17,7 +17,7 @@ public class Blahblog{
 				if(guestOrNo.toLowerCase().equals("y")){
 					
 				}
-				else{
+			
 				
 				String username;
 				String password;  	
@@ -27,10 +27,8 @@ public class Blahblog{
 				password = input.nextLine();
 				register Reg = new register();
 				Reg.newUser(username, password);
-				System.out.println("Great. Registered.");
-					}
-		  }
-			else{
+}
+					else{
 				String username;
 				String password;
 				System.out.println("What's your username?");
