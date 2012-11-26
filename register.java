@@ -32,16 +32,17 @@ public class register{
 	  output = new BufferedWriter(new FileWriter(file));
 	  String tempFileContents = fileToString("template.html");
 	  
-	  String strreplace = "User";
-	  String result = tempFileContents.replace(username, strreplace);
+
+	  String result = tempFileContents.replace("User", username);
 
 	
-	  output.write(tempFileContents);
+	  output.write(result);
 	  
 
 	  
 	  output.close();
      System.out.println("Great. Registered.");
+	  
 	   
   } catch (IOException e) {
     //oh noes!

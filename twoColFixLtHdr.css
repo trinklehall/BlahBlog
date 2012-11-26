@@ -121,13 +121,3 @@ color:#000;
 a:visited{
 color:#666;	
 }
-
-#viewport { 
-        width: 740px; 
-        height: 686px; 
-        cursor: move; 
-        overflow: hidden; /*keep map contents from spilling over if JS is disabled*/ 
-		margin-left: -35px;	
-		margin-top:5px;
-
-    } 

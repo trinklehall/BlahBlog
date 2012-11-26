@@ -27,6 +27,18 @@ public class Blahblog{
 				password = input.nextLine();
 				register Reg = new register();
 				Reg.newUser(username, password);
+				System.out.println("What's your username?");
+				username = input.nextLine();
+				System.out.println("What's your password?");
+				password = input.nextLine();
+				String whateverLogInReturns = "gparvez";
+				
+				if(username.equals(whateverLogInReturns)){
+					System.out.println("success");
+					theBlog.viewDashboard(username);
+									
+				}
+
 }
 					else{
 				String username;
@@ -35,7 +47,7 @@ public class Blahblog{
 				username = input.nextLine();
 				System.out.println("What's your password?");
 				password = input.nextLine();
-				String whateverLogInReturns = "temp";
+				String whateverLogInReturns = "gparvez";
 				if(username.equals(whateverLogInReturns)){
 					theBlog.viewDashboard(username);
 					//logs in
