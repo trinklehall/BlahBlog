@@ -33,7 +33,8 @@ public class blog{
 		dashSelection = input.nextLine();
 		if(dashSelection.equals("1")){
 			String site = (username + ".html");
-			openBrowser(site);
+//			openBrowser(site);
+			BareBonesBrowserLaunch.openURL(site);
 		}
 		if(dashSelection.equals("3")){
 			boolean imageDec = false;
@@ -69,7 +70,7 @@ public class blog{
                                                 "rundll32 url.dll,FileProtocolHandler " + url);
                         else {
                                 String[] browsers = { "firefox", "opera", "konqueror",
-                                                "epiphany", "mozilla", "netscape" };
+                                                "epiphany", "mozilla", "netscape", "safari" };
                                 String browser = null;
                                 for (int count = 0; count < browsers.length && browser == null; count++)
                                         if (Runtime.getRuntime().exec(
@@ -85,6 +86,8 @@ public class blog{
 
 	}
 //END OPEN BROWSER METHOD	
+
+
 
 //ADD METHOD
 	 public static void add(String post,String user, boolean image, String imageURL){

@@ -121,3 +121,13 @@ color:#000;
 a:visited{
 color:#666;	
 }
+
+.blogtable{
+
+border-spacing:20px;
+}
+.blogtable td{
+border:1px dotted #666;
+padding:5px;
+
+}
