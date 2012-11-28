@@ -7,7 +7,7 @@
 //  Example Usage:                                     //
 //     String url = "http://www.centerkey.com/";       //
 //     BareBonesBrowserLaunch.openURL(url);            //
-//  Public Domain Software -- Free to Use as You Like  //
+//  Public Domain Software -- Free t6o Use as You Like  //
 /////////////////////////////////////////////////////////
 
 import javax.swing.JOptionPane;
