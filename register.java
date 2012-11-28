@@ -41,8 +41,6 @@ public class register{
 
 	  
 	  output.close();
-     System.out.println("Great. Registered.");
-	  
 	   
   } catch (IOException e) {
     //oh noes!
