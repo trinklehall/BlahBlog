@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.Writer;
 import java.io.FileNotFoundException;
+import java.lang.String;
 
 
 public class blog{
@@ -24,6 +25,8 @@ public class blog{
       Scanner input = new Scanner(System.in);
 		String dashSelection;
 		System.out.println("Welcome, " + username);
+		System.out.println();
+		System.out.println(detectDirected(username));
 		System.out.println("--------------------");
 		System.out.println("1: View your blog");
 		System.out.println("2: View posts from blog you are subscribed to");
@@ -210,5 +213,48 @@ public static void removeSubscription(String username, String unsubscribeTo){
 } catch (IOException e) {}	
 	}
 
+public static String detectDirected(String username){
+
+	
+
+		try{
+			//selects file login.txt to be read
+			FileReader file1 = new FileReader(new File("users.blah"));
+			//reads file
+			BufferedReader f = new BufferedReader(file1);
+			//creates temp string file to save each line read
+			String temp;
+			
+			
+			while((temp=f.readLine())!=null)
+			{
+				
+				int spacePos = temp.indexOf(" ");
+				String firstWord = temp.substring(0,spacePos);
+				String blogContents = fileToString(firstWord + ".html");
+				String msg = "";
+				if(blogContents.contains("@"+username)){
+					int atSymbolPos = blogContents.indexOf("@"+username);
+
+					int endOfBlogPos = blogContents.length();
+
+					String blogContentsonward = blogContents.substring(atSymbolPos, endOfBlogPos);
+
+					
+					int endOfMsgPos = blogContentsonward.indexOf("</td></tr>") + atSymbolPos;
+
+					msg = msg + "\nMessage from "+ firstWord + ": " + blogContents.substring(atSymbolPos, endOfMsgPos);
+					
+					return msg;
+				}
+				
+		
+			}
+		}
+		catch(Exception e)
+		{System.out.println(e);}
+
+			return "";
+}
 
 }

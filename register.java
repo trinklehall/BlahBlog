@@ -17,7 +17,7 @@ public class register{
 	public void newUser(String username, String password){
 	try {
     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("users.blah", true)));
-    out.println(username + " " + password);
+    out.println("\n" + username + " " + password);
     out.close();
 } catch (IOException e) {
     //oh noes!

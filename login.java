@@ -23,7 +23,7 @@ public class login{
 			{
 				if(temp.equals(s))
 				{
-					System.out.println("It Worked");
+
 					found=true;
 					return username;
 					}
