@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.util.Scanner;
 import javax.swing.*;
 import java.lang.reflect.Method;
-
+import java.sql.Timestamp;
 import java.util.Scanner;
 import java.io.*;
 import java.io.FileWriter;
@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.Writer;
 import java.io.FileNotFoundException;
+
 
 public class blog{
 
@@ -91,6 +92,7 @@ public class blog{
 
 //ADD METHOD
 	 public static void add(String post,String user, boolean image, String imageURL){
+
 //Collects the html file as is, into a string
 	 String blogContents = fileToString(user + ".html");
 //Adds the new blog post and image into that string (if the person gave an image)
@@ -159,7 +161,54 @@ public class blog{
         return result;
     }
 
+	public static void addSubscription(String username, String subscribeTo){
+	//Collects the html file as is, into a string
+	 String blogContents = fileToString(username + ".html");
+//Adds the new blog post and image into that string (if the person gave an image)
+	//Overwrites the html file with a html containing that string. Resulting in an updated html file.
+	
+	
+	
+	
+	 blogContents = blogContents.replace("<!--SUBSCRIPTIONS-->", "<!--SUBSCRIPTIONS-->"+subscribeTo);	 
 
+	try {
+  Writer output = null;
+	  String userhtml = (username + ".html");
+	  File file = new File(userhtml);
+	  output = new BufferedWriter(new FileWriter(file));
+  
+
+    	  output.write(blogContents);
+	 
+    output.close();
+} catch (IOException e) {}	
+	}
+
+
+public static void removeSubscription(String username, String unsubscribeTo){
+	//Collects the html file as is, into a string
+	 String blogContents = fileToString(username + ".html");
+//Adds the new blog post and image into that string (if the person gave an image)
+	//Overwrites the html file with a html containing that string. Resulting in an updated html file.
+	
+	
+	
+	
+	 blogContents = blogContents.replace(unsubscribeTo, "");	 
+
+	try {
+  Writer output = null;
+	  String userhtml = (username + ".html");
+	  File file = new File(userhtml);
+	  output = new BufferedWriter(new FileWriter(file));
+  
+
+    	  output.write(blogContents);
+	 
+    output.close();
+} catch (IOException e) {}	
+	}
 
 
 }
