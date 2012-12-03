@@ -1,3 +1,6 @@
+//BLAHBLOG LOGIN CLASS
+//Creates login object to log user in
+//Last updated 12/03/2012 10:21AM
 
 import java.util.Scanner;
 import java.io.*;

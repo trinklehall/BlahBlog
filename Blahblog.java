@@ -1,3 +1,6 @@
+//BLAHBLOG BLAHBLOG CLASS
+//Main method of Blahblog class.
+//Last updated 12/03/2012 10:21AM
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Scanner;

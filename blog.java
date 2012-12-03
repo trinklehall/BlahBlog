@@ -1,3 +1,7 @@
+//BLAHBLOG BLOG CLASS
+//Contains all the methods of the blog class and supporting methods they may require.
+//Last updated 12/03/2012 10:21AM
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Scanner;
@@ -19,14 +23,14 @@ import java.lang.String;
 public class blog{
 
 	public blog(){}
-	
+//View dashboard
 	public void viewDashboard(String username){
 	
       Scanner input = new Scanner(System.in);
 		String dashSelection;
 
 		System.out.println();
-
+//Checks for public or private messages
 		System.out.println(detectDirected(username));
 		checkPM(username);
 
@@ -43,9 +47,10 @@ public class blog{
 		System.out.println("10: Public Message");
 
 		dashSelection = input.nextLine();
+//If statements for whatever the user chooses.
 		if(dashSelection.equals("1")){
 			String site = (username + ".html");
-//			openBrowser(site);
+
 			BareBonesBrowserLaunch.openURL(site);
 		}
 		if(dashSelection.equals("3")){
@@ -152,6 +157,8 @@ public class blog{
 		viewDashboard(username);
 
 	}
+//End Dashboard method.
+
 //OPEN BROWSER METHOD
 //Do not touch
 	public void openBrowser(String url){
@@ -180,7 +187,7 @@ public class blog{
 //END OPEN BROWSER METHOD	
 
 
-//ADD METHOD
+//ADD POST METHOD
 	public static void add(String post,String user, boolean image, String imageURL){
 		//Collects the html file as is, into a string
 		String userhtml = user + ".html";
@@ -265,7 +272,7 @@ private static void postDelete(String username, String postNum) {
 	}
 
 
-
+//END DELETE METHOD.
 //DELETED METHOD
 
 	private static void deleted(String userhtml, String blogContents, int indexStart, int indexEnd) {
@@ -288,6 +295,10 @@ private static void postDelete(String username, String postNum) {
 		} catch (IOException e) {}
 
 	}
+	
+//END DELETED METHOD
+
+//POST COUNT ADD METHOD
 
 	private static void postCountAdd(int postCount, String userhtml) {
 		// TODO Auto-generated method stub
@@ -300,7 +311,7 @@ private static void postDelete(String username, String postNum) {
 		System.out.println(index);
 		int index2 = blogContents.indexOf(postCnt) + 9;
 		System.out.println(index2);
-
+//Adds posts added together
 		char[] characters = blogContents.toCharArray();
 		char temp = characters[index];
 
@@ -320,9 +331,11 @@ private static void postDelete(String username, String postNum) {
 			output.close();
 		} catch (IOException e) {}
 	}
+//END POSTCOUNTADD METHOD
 
+//COUNTPOSTSMETHOD
 	public static int countPosts(String userhtml){
-
+//Counts number of posts in a specific blog
 
 		String blogContents = fileToString(userhtml);
 		//System.out.println(blogContents.length());
@@ -335,6 +348,9 @@ private static void postDelete(String username, String postNum) {
 		int postCnt = Character.getNumericValue(temp);
 		return postCnt;
 	}
+//END COUNTPOSTS METHOD
+
+//ADJUSTPOSTCOUNT METHOD
 	private static void adjustPostCount(int postCount, int postNumInt) {
 		// TODO Auto-generated method stub
 		if (postCount == postNumInt){
@@ -346,7 +362,10 @@ private static void postDelete(String username, String postNum) {
 	}
 
 
+//END ADJUSTPOSTCOUNTMETHOD
 
+//RESET NUMPOSTS METHOD
+//Used for when user deletes all posts
 	private static void resetNumPosts(String userhtml) {
 		String blogContents = fileToString(userhtml);
 		String s = "numposts";
@@ -370,10 +389,11 @@ private static void postDelete(String username, String postNum) {
 		} catch (IOException e) {}
 
 	}
-	//END REMOVE METHOD
+//END RESETPOSTCOUNT METHOD
 
 
-	 
+//FILETOSTRING METHOD (do not touch)
+//Converts text file to string for manipulation
 	 public static String fileToString(String file) {
         String result = null;
         DataInputStream in = null;
@@ -394,6 +414,9 @@ private static void postDelete(String username, String postNum) {
         }
         return result;
     }
+//END FILETOSTRING METHOD
+
+//ADD SUBSCRIPTION
 
 	public static void addSubscription(String username, String subscribeTo){
 	//Collects the html file as is, into a string
@@ -416,7 +439,9 @@ private static void postDelete(String username, String postNum) {
 	System.out.println(e);
 }	
 	}
+//END ADDSUBSCRIPTION
 
+//REMOVESUBSCRIPTION
 
 public static void removeSubscription(String username, String unsubscribeTo){
 	//Collects the html file as is, into a string
@@ -441,9 +466,11 @@ public static void removeSubscription(String username, String unsubscribeTo){
 } catch (IOException e) {}	
 	}
 
+//END REMOVESUBSCRIPTION
 
 
-
+//DETECTDIRECTED METHOD
+//Detects public messages directed towards user's account.
 public static String detectDirected(String username){
 
 	
@@ -487,7 +514,10 @@ public static String detectDirected(String username){
 
 			return "";
 }
+//END DETECTDIRECTED
 
+//SEARCHRESULTS METHOD
+//Searches all account for a certain tag
 public static void searchResults(String searchTag){
 		
 		Scanner input = new Scanner(System.in);
@@ -532,6 +562,10 @@ public static void searchResults(String searchTag){
 
 
 }
+//END SEARCHRESULTS METHOD
+
+//PRIVATEMSG METHOD
+//Sends a private message to a certain user so only they can read it.
 
 public static void privateMsg(String fromUser, String toUser, String msg){
 	
@@ -555,6 +589,10 @@ public static void privateMsg(String fromUser, String toUser, String msg){
 	System.out.println(e);
 }	}
 
+//END PRIVATEMSG METHOD
+
+//CHECKPM METHOD
+//Checks if the user has any new private messages. Displays, then erases.
 public static void checkPM(String username){
 	 Scanner input = new Scanner(System.in);
 	 String blogContents = fileToString(username + ".html");
@@ -589,7 +627,7 @@ public static void checkPM(String username){
 }
 		
 	 }
-	 
+//END CHECKPM METHOD
 
 
 }

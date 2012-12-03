@@ -1,3 +1,6 @@
+//BLAHBLOG REGISTER CLASS
+//Creates register object to register user and create new blog
+//Last updated 12/03/2012 10:21AM
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Scanner;
