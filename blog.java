@@ -148,6 +148,7 @@ public class blog{
 			System.out.println("Recipient:");
 			String recip = input.nextLine();
 			add(("@"+recip+" "+message), username, imageDec, imageURL);
+			
 			System.out.println("Post added. \n\n(Press enter to continue)");
 			input.nextLine();
 		}
@@ -306,16 +307,16 @@ private static void postDelete(String username, String postNum) {
 		//System.out.println(blogContents.length());
 		String postCnt = "numposts";
 		String numPosts = Integer.toString(postCount + 1);
-		System.out.println(numPosts);
+		//System.out.println(numPosts);
 		int index = blogContents.indexOf(postCnt) + 8;
-		System.out.println(index);
+		//System.out.println(index);
 		int index2 = blogContents.indexOf(postCnt) + 9;
-		System.out.println(index2);
+		//System.out.println(index2);
 //Adds posts added together
 		char[] characters = blogContents.toCharArray();
 		char temp = characters[index];
 
-		System.out.print(temp);
+		//System.out.print(temp);
 		StringBuilder sb = new StringBuilder();
 		sb.append(characters);
 		sb.replace(index, index2, numPosts);
@@ -350,16 +351,6 @@ private static void postDelete(String username, String postNum) {
 	}
 //END COUNTPOSTS METHOD
 
-//ADJUSTPOSTCOUNT METHOD
-	private static void adjustPostCount(int postCount, int postNumInt) {
-		// TODO Auto-generated method stub
-		if (postCount == postNumInt){
-			//do nothing
-		}
-		if (postNumInt < postCount){
-			//do something
-		}
-	}
 
 
 //END ADJUSTPOSTCOUNTMETHOD
@@ -375,7 +366,7 @@ private static void postDelete(String username, String postNum) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(characters);
-		sb.replace(indexStart, indexEnd, "0");
+		sb.replace(indexStart, indexEnd, "1");
 		String bg = sb.toString();
 
 		try {
@@ -510,7 +501,8 @@ public static String detectDirected(String username){
 			}
 		}
 		catch(Exception e)
-		{System.out.println(e);}
+		{//System.out.println(e);
+		}
 
 			return "";
 }
@@ -540,14 +532,14 @@ public static void searchResults(String searchTag){
 
 				if(blogContents.contains("#"+searchTag)){
 					int atHashSymbolPos = blogContents.indexOf("#"+searchTag);
-	
+//					System.out.println("found search tag at " + atHashSymbolPos);
 					String atHashAfter = blogContents.substring(atHashSymbolPos, blogContents.length());
 
 					int endOfPostPos = (atHashAfter.indexOf("</td></tr>"))+atHashSymbolPos;
 
-
+		//			System.out.println(endOfPostPos);
 					int begOfPostPos = blogContents.lastIndexOf("<td>", atHashSymbolPos)+4;
-
+//					System.out.println(begOfPostPos);
 					String post = blogContents.substring(begOfPostPos, endOfPostPos);
 					System.out.println("from user " + firstWord + ":\n" + post);
 
@@ -623,7 +615,7 @@ public static void checkPM(String username){
 	 
     output.close();
 } catch (IOException e) {
-	System.out.println(e);
+//	System.out.println(e);
 }
 		
 	 }
