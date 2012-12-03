@@ -24,16 +24,22 @@ public class blog{
 	
       Scanner input = new Scanner(System.in);
 		String dashSelection;
-		System.out.println("Welcome, " + username);
+
 		System.out.println();
 		System.out.println(detectDirected(username));
+		checkPM(username);
+
 		System.out.println("--------------------");
 		System.out.println("1: View your blog");
 		System.out.println("2: View posts from blog you are subscribed to");
-		System.out.println("3: Add post");
-		System.out.println("4: Delete post");
-		System.out.println("5: Subscribe to user");
-		System.out.println("6: Exit");
+		System.out.println("3: Search tags");
+		System.out.println("4: Add post");
+		System.out.println("5: Delete post");
+		System.out.println("6: Subscribe to user");
+		System.out.println("7: Unsubscribe to user");
+		System.out.println("8: Exit");
+		System.out.println("9: Private Message");
+
 		dashSelection = input.nextLine();
 		if(dashSelection.equals("1")){
 			String site = (username + ".html");
@@ -41,6 +47,13 @@ public class blog{
 			BareBonesBrowserLaunch.openURL(site);
 		}
 		if(dashSelection.equals("3")){
+			System.out.println("What would you like to search for?");
+			String searchFor = input.nextLine();
+			searchResults(searchFor);
+			System.out.println("\n(Press enter to continue)");
+		input.nextLine();
+		}
+		if(dashSelection.equals("4")){
 			boolean imageDec = false;
 			String imageURL = null;
 			System.out.println("Would you like to add an image to that post?");
@@ -58,11 +71,60 @@ public class blog{
 			System.out.println("Type post:");
 			String post = input.nextLine();
 			add(post, username, imageDec, imageURL);
+			System.out.println("Post added. \n\n(Press enter to continue)");
+			input.nextLine();
 		}
-		if(dashSelection.equals("6")){
+		if(dashSelection.equals("8")){
 			System.exit(0);
 		}
+		if(dashSelection.equals("5")){
+		
+			String postNum = "0";
+			System.out.println("Would you like to delete all posts?");
+			String imageDecision = input.nextLine();
+			if(imageDecision.toLowerCase().equals("y")){
+				postDelete(username, postNum);
+				System.out.println("Posts deleted. \n\n(Press enter to continue)");
+				input.nextLine();
+			}
+			if(imageDecision.toLowerCase().equals("n")){
+				System.out.println("Which post would you like to delete?");
+				postNum = input.nextLine();
+				postDelete(username, postNum);
+				System.out.println("Post deleted. \n\n(Press enter to continue)");
+				input.nextLine();
+			}
+		}
+		if(dashSelection.equals("6")){
+			System.out.println("Type the username you wish to subscribe to");
+			String subscribeTo = input.nextLine();
+			addSubscription(username, subscribeTo);
+			System.out.println("Now subscribed to "+subscribeTo);
+			System.out.println("\n(Press enter to continue)");
+			input.nextLine();
+			
+		}
+		if(dashSelection.equals("7")){
+			System.out.println("Type the username you wish to unsubscribe to");
+			String subscribeTo = input.nextLine();
+			removeSubscription(username, subscribeTo);
+			System.out.println(subscribeTo + " removed from subscriptions");
+			System.out.println("\n(Press enter to continue)");
+			input.nextLine();
+
+		}
+		if(dashSelection.equals("9")){
+			System.out.println("Type your message:");
+			String msg = input.nextLine();
+			System.out.println("Recipient:");
+			String rec = input.nextLine();
+			privateMsg(username, rec, msg);
+		
+		}
+		
+		
 		viewDashboard(username);
+
 	}
 //OPEN BROWSER METHOD
 //Do not touch
@@ -92,56 +154,199 @@ public class blog{
 //END OPEN BROWSER METHOD	
 
 
-
 //ADD METHOD
-	 public static void add(String post,String user, boolean image, String imageURL){
+	public static void add(String post,String user, boolean image, String imageURL){
+		//Collects the html file as is, into a string
+		String userhtml = user + ".html";
+		String blogContents = fileToString(userhtml);
 
-//Collects the html file as is, into a string
-	 String blogContents = fileToString(user + ".html");
-//Adds the new blog post and image into that string (if the person gave an image)
-	 if(image == true){
-	 blogContents = blogContents.replace("<!-- START BLOG POSTS -->", "<!-- START BLOG POSTS --><tr><td>"+"<img src=\"" + imageURL + "\" width=\"550\"><br />"+post+"</td></tr>");
-	 }
-	 else{
-	 blogContents = blogContents.replace("<!-- START BLOG POSTS -->", "<!-- START BLOG POSTS --><tr><td>"+post+"</td></tr>");	 
-	 }
-//Overwrites the html file with a html containing that string. Resulting in an updated html file.
-	try {
-  Writer output = null;
-	  String userhtml = (user + ".html");
-	  File file = new File(userhtml);
-	  output = new BufferedWriter(new FileWriter(file));
-  
+		int postCount = countPosts(userhtml);
+		//System.out.println(postCount);
+		//postCountAdd(postCount, userhtml);
 
-    	  output.write(blogContents);
+		//Adds the new blog post and image into that string (if the person gave an image)
+		if(image == true){
+			blogContents = blogContents.replace("<!-- START BLOG POSTS -->", "<!-- START BLOG POSTS --><tr><td>"+"<img src=\"" + imageURL + "\" width=\"550\"><br />"+post+"</td></tr><tr><td>Post " + postCount + "</td></tr>");
+		}
+		else{
+			blogContents = blogContents.replace("<!-- START BLOG POSTS -->", "<!-- START BLOG POSTS --><tr><td>"+post+"</td></tr><tr><td>Post " + postCount + "</td></tr>");	 
+		}
+		//postCountAdd(postCount, userhtml);
+		//Overwrites the html file with a html containing that string. Resulting in an updated html file.
+		try {
+			Writer output = null;
+			File file = new File(userhtml);
+			output = new BufferedWriter(new FileWriter(file));
+
+			//System.out.println("its working");
+
+
+			output.write(blogContents);
+			//postCountAdd(postCount, userhtml);
+
+			output.close();
+		} catch (IOException e) {}
+		postCountAdd(postCount, userhtml);
+	}
+
+	//END ADD METHOD	 
 	 
-    output.close();
-} catch (IOException e) {}
-	 }
-//END ADD METHOD	 
-	
-//REMOVE METHOD// 
-	 public static void remove(String user){
-    Scanner input = new Scanner(System.in);
-//Collects contents of html into string
-	 String currentPost;
-	 String yesNo;
-	 String blogContents = fileToString(user + ".html");
-//Parses through lines, if there is <tr><td>(post text)</td></tr>, store it in currentPost
-//System.out.println("Would you like to delete\n" + currentPost + "? (Y/N)");
-//input.nextLine = yesNo;
-//if(yesNo.toLowerCase.equals("y"){
-//blogContents.delete(that exact segment of code)
-//}
+//POST DELETE METHOD
+private static void postDelete(String username, String postNum) {
+
+		//name of user's html file
+		String userhtml = username + ".html";
+		//convert string to interger
+		int postNumInt = Integer.parseInt(postNum);
+
+		//deletes all posts
+		if (postNumInt == 0)
+		{
+			String blogContents = fileToString(userhtml);
+
+			String keyword = "START BLOG POSTS";
+			int indexStart = blogContents.indexOf(keyword) + 20;
+			String keyword2 = "END BLOG POSTS";
+			int indexEnd = blogContents.indexOf(keyword2) -10;
+
+			deleted(userhtml, blogContents, indexStart, indexEnd);
+			resetNumPosts(userhtml);
+
+		}
 
 
-//Replaces the old blog with the post with the new blog, without the post
-	 blogContents = blogContents.replace("<!-- START BLOG POSTS -->", "<!-- START BLOG POSTS -->");
+		if(postNumInt > 1){
 
-	 
-	 }
-	 
- //END REMOVE METHOD
+			String blogContents = fileToString(userhtml);
+
+
+			String keyword = "Post " + (postNumInt + 1);
+			int indexStart = blogContents.indexOf(keyword) + 17;
+			//if post trying to delete is most recent post
+			if (indexStart == 16){
+				keyword = "START BLOG POSTS";
+				indexStart = blogContents.indexOf(keyword) + 22;
+				//System.out.println("whoa: " + indexStart);
+			}
+
+			String keyword2 = "Post " + postNumInt;
+			int indexEnd = blogContents.indexOf(keyword2) + 17;
+
+			deleted(userhtml, blogContents, indexStart, indexEnd);
+		}
+
+
+	}
+
+
+
+//DELETED METHOD
+
+	private static void deleted(String userhtml, String blogContents, int indexStart, int indexEnd) {
+
+		char[] characters = blogContents.toCharArray();
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(characters);
+		sb.replace(indexStart, indexEnd, "");
+		String bg = sb.toString();
+
+		try {
+			Writer output = null;
+			File file = new File(userhtml);
+			output = new BufferedWriter(new FileWriter(file));
+
+			output.write(bg);
+
+			output.close();
+		} catch (IOException e) {}
+
+	}
+
+	private static void postCountAdd(int postCount, String userhtml) {
+		// TODO Auto-generated method stub
+		String blogContents = fileToString(userhtml);
+		//System.out.println(blogContents.length());
+		String postCnt = "numposts";
+		String numPosts = Integer.toString(postCount + 1);
+		System.out.println(numPosts);
+		int index = blogContents.indexOf(postCnt) + 8;
+		System.out.println(index);
+		int index2 = blogContents.indexOf(postCnt) + 9;
+		System.out.println(index2);
+
+		char[] characters = blogContents.toCharArray();
+		char temp = characters[index];
+
+		System.out.print(temp);
+		StringBuilder sb = new StringBuilder();
+		sb.append(characters);
+		sb.replace(index, index2, numPosts);
+		String bg = sb.toString();
+
+		try {
+			Writer output = null;
+			File file = new File(userhtml);
+			output = new BufferedWriter(new FileWriter(file));
+
+			output.write(bg);
+
+			output.close();
+		} catch (IOException e) {}
+	}
+
+	public static int countPosts(String userhtml){
+
+
+		String blogContents = fileToString(userhtml);
+		//System.out.println(blogContents.length());
+		String postCount = "numposts";
+		int index = blogContents.indexOf(postCount) + 8;
+		//System.out.println(index);
+		char[] chars = blogContents.toCharArray();
+		char temp = chars[index];
+		System.out.println(temp);
+		int postCnt = Character.getNumericValue(temp);
+		return postCnt;
+	}
+	private static void adjustPostCount(int postCount, int postNumInt) {
+		// TODO Auto-generated method stub
+		if (postCount == postNumInt){
+			//do nothing
+		}
+		if (postNumInt < postCount){
+			//do something
+		}
+	}
+
+
+
+	private static void resetNumPosts(String userhtml) {
+		String blogContents = fileToString(userhtml);
+		String s = "numposts";
+		int indexStart = blogContents.indexOf(s) + 8;
+		int indexEnd = blogContents.indexOf(s) + 10;
+		char[] characters = blogContents.toCharArray();
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(characters);
+		sb.replace(indexStart, indexEnd, "0");
+		String bg = sb.toString();
+
+		try {
+			Writer output = null;
+			File file = new File(userhtml);
+			output = new BufferedWriter(new FileWriter(file));
+
+			output.write(bg);
+
+			output.close();
+		} catch (IOException e) {}
+
+	}
+	//END REMOVE METHOD
+
+
 	 
 	 public static String fileToString(String file) {
         String result = null;
@@ -167,14 +372,10 @@ public class blog{
 	public static void addSubscription(String username, String subscribeTo){
 	//Collects the html file as is, into a string
 	 String blogContents = fileToString(username + ".html");
-//Adds the new blog post and image into that string (if the person gave an image)
-	//Overwrites the html file with a html containing that string. Resulting in an updated html file.
-	
-	
-	
-	
-	 blogContents = blogContents.replace("<!--SUBSCRIPTIONS-->", "<!--SUBSCRIPTIONS-->"+subscribeTo);	 
 
+	
+	 blogContents = blogContents.replace("<!-- SUBSCRIPTIONS ", "<!-- SUBSCRIPTIONS "+subscribeTo+", " );	 
+	 blogContents = blogContents.replace("<h3>Subscribed to:</h3>", "<h3>Subscribed to:</h3><h4><a href=\""+subscribeTo+".html\" target=\"_blank\">" + subscribeTo + "</a></h4>");
 	try {
   Writer output = null;
 	  String userhtml = (username + ".html");
@@ -185,20 +386,21 @@ public class blog{
     	  output.write(blogContents);
 	 
     output.close();
-} catch (IOException e) {}	
+} catch (IOException e) {
+	System.out.println(e);
+}	
 	}
 
 
 public static void removeSubscription(String username, String unsubscribeTo){
 	//Collects the html file as is, into a string
 	 String blogContents = fileToString(username + ".html");
-//Adds the new blog post and image into that string (if the person gave an image)
-	//Overwrites the html file with a html containing that string. Resulting in an updated html file.
+
 	
 	
 	
-	
-	 blogContents = blogContents.replace(unsubscribeTo, "");	 
+	 blogContents = blogContents.replace(unsubscribeTo+", ", "");	 
+	 	 blogContents = blogContents.replace("<h4><a href=\""+unsubscribeTo+".html\" target=\"_blank\">" + unsubscribeTo + "</a></h4>", "");	 
 
 	try {
   Writer output = null;
@@ -212,6 +414,9 @@ public static void removeSubscription(String username, String unsubscribeTo){
     output.close();
 } catch (IOException e) {}	
 	}
+
+
+
 
 public static String detectDirected(String username){
 
@@ -222,18 +427,18 @@ public static String detectDirected(String username){
 			FileReader file1 = new FileReader(new File("users.blah"));
 			//reads file
 			BufferedReader f = new BufferedReader(file1);
-			//creates temp string file to save each line read
+			//creates temp string to save each line read
 			String temp;
-			
+
 			
 			while((temp=f.readLine())!=null)
 			{
-				
 				int spacePos = temp.indexOf(" ");
 				String firstWord = temp.substring(0,spacePos);
 				String blogContents = fileToString(firstWord + ".html");
 				String msg = "";
 				if(blogContents.contains("@"+username)){
+					
 					int atSymbolPos = blogContents.indexOf("@"+username);
 
 					int endOfBlogPos = blogContents.length();
@@ -255,6 +460,77 @@ public static String detectDirected(String username){
 		{System.out.println(e);}
 
 			return "";
+}
+
+public static void searchResults(String searchTag){
+		
+		Scanner input = new Scanner(System.in);
+		try{
+			//selects file login.txt to be read
+			FileReader file1 = new FileReader(new File("users.blah"));
+			//reads file
+			BufferedReader f = new BufferedReader(file1);
+			//creates temp string to save each line read
+			String temp;
+
+			System.out.println("Search results:");
+			while((temp=f.readLine())!=null)
+			{
+
+				int spacePos = temp.indexOf(" ");
+				String firstWord = temp.substring(0,spacePos);
+				String blogContents = fileToString(firstWord + ".html");
+				String msg = "";
+
+				if(blogContents.contains("#"+searchTag)){
+					int atHashSymbolPos = blogContents.indexOf("#"+searchTag);
+	
+					String atHashAfter = blogContents.substring(atHashSymbolPos, blogContents.length());
+
+					int endOfPostPos = (atHashAfter.indexOf("</td></tr>"))+atHashSymbolPos;
+
+
+					int begOfPostPos = blogContents.lastIndexOf("<td>", atHashSymbolPos)+4;
+
+					String post = blogContents.substring(begOfPostPos, endOfPostPos);
+					System.out.println("from user " + firstWord + ":\n" + post);
+
+				}
+				
+		
+			}
+		}
+		catch(Exception e)
+		{System.out.println(e);}
+		
+
+
+}
+
+public static void privateMsg(String fromUser, String toUser, String msg){
+	
+
+	 String blogContents = fileToString(toUser + ".html");
+
+	
+	 blogContents = blogContents.replace("<!-- PM:", "<!-- PM:"+fromUser+","+msg+";" );	 
+
+	try {
+  Writer output = null;
+	  String userhtml = (toUser + ".html");
+	  File file = new File(userhtml);
+	  output = new BufferedWriter(new FileWriter(file));
+  
+
+    	  output.write(blogContents);
+	 
+    output.close();
+} catch (IOException e) {
+	System.out.println(e);
+}	}
+
+public static void checkPM(String username){
+	
 }
 
 }

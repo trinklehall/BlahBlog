@@ -26,14 +26,7 @@ public class Blahblog{
 					password = input.nextLine();
 					register Reg = new register();
 					Reg.newUser(username, password);
-					login Log = new login();
-					username = "-1";
-					while(!username.equals(Log.loginUser(username,password))){
-						System.out.println("What's your username?");
-						username = input.nextLine();
-						System.out.println("What's your password?");
-						password = input.nextLine();
-					}
+				
 					theBlog.viewDashboard(username);
 
 					}

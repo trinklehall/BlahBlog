@@ -17,7 +17,7 @@ public class register{
 	public void newUser(String username, String password){
 	try {
     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("users.blah", true)));
-    out.println("\n" + username + " " + password);
+    out.println(username + " " + password);
     out.close();
 } catch (IOException e) {
     //oh noes!
@@ -45,11 +45,6 @@ public class register{
   } catch (IOException e) {
     //oh noes!
 }
-//Create file named (user + ".html");
-//Copy contents of template.html into user file
-//Parse, replace "user" with user's name in line 5 (title), line 32 ("____'s Blog"), 
-
-
 
 	}
 	
