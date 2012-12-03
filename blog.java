@@ -26,6 +26,7 @@ public class blog{
 		String dashSelection;
 
 		System.out.println();
+
 		System.out.println(detectDirected(username));
 		checkPM(username);
 
@@ -39,6 +40,7 @@ public class blog{
 		System.out.println("7: Unsubscribe to user");
 		System.out.println("8: Exit");
 		System.out.println("9: Private Message");
+		System.out.println("10: Public Message");
 
 		dashSelection = input.nextLine();
 		if(dashSelection.equals("1")){
@@ -121,6 +123,30 @@ public class blog{
 			privateMsg(username, rec, msg);
 		
 		}
+		if(dashSelection.equals("10")){
+		boolean imageDec = false;
+			String imageURL = null;
+			System.out.println("Would you like to add an image to the message?");
+			String imageDecision = input.nextLine();
+			if(imageDecision.toLowerCase().equals("n")){
+				imageDec = false;
+				imageURL = "";
+			}
+			if(imageDecision.toLowerCase().equals("y")){
+				imageDec = true;
+				System.out.println("Type URL of image.");
+				imageURL = input.nextLine();
+
+			}
+			System.out.println("Type message:");
+			String message = input.nextLine();
+			System.out.println("Recipient:");
+			String recip = input.nextLine();
+			add(("@"+recip+" "+message), username, imageDec, imageURL);
+			System.out.println("Post added. \n\n(Press enter to continue)");
+			input.nextLine();
+		}
+
 		
 		
 		viewDashboard(username);
@@ -530,7 +556,43 @@ public static void privateMsg(String fromUser, String toUser, String msg){
 }	}
 
 public static void checkPM(String username){
-	
+	 Scanner input = new Scanner(System.in);
+	 String blogContents = fileToString(username + ".html");
+	 int PMstart = blogContents.indexOf("<!-- PM:")+8;
+	 int PMend = blogContents.indexOf(" -->", PMstart);
+
+	 String PMs = blogContents.substring(PMstart,PMend);
+	 while(PMstart!=PMend){
+	 	int indexOfComma = PMs.indexOf(',');
+		String fromPerson = PMs.substring(0,indexOfComma);
+		int indexOfSemi = PMs.indexOf(';');
+		String message = PMs.substring(indexOfComma+1,indexOfSemi);
+		System.out.println("Private message from " + fromPerson + ": \n"+message);
+
+		System.out.println("Press enter to continue");
+		input.nextLine();
+      blogContents = blogContents.replace(fromPerson+","+message+";", "" );	 
+		PMstart = blogContents.indexOf("<!-- PM:")+8;
+	 	PMend = blogContents.indexOf(" -->", PMstart);
+		try {
+  Writer output = null;
+	  String userhtml = (username + ".html");
+	  File file = new File(userhtml);
+	  output = new BufferedWriter(new FileWriter(file));
+  
+
+    	  output.write(blogContents);
+	 
+    output.close();
+} catch (IOException e) {
+	System.out.println(e);
+}
+		
+	 }
+	 
+
+
 }
 
+	
 }
